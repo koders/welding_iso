@@ -1,3 +1,4 @@
 node_modules/
 build/
 src/dbConfig.json
+database.sqlite
