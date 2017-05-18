@@ -17,6 +17,8 @@ import news from './queries/news';
 import orders from './queries/orders';
 import order from './queries/order';
 
+import createOrder from './mutations/order';
+
 const schema = new Schema({
   query: new ObjectType({
     name: 'Query',
@@ -25,6 +27,12 @@ const schema = new Schema({
       news,
       orders,
       order,
+    },
+  }),
+  mutation: new ObjectType({
+    name: 'Mutation',
+    fields: {
+      createOrder,
     },
   }),
 });
