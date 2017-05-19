@@ -18,21 +18,29 @@ const User = Model.define('User', {
     primaryKey: true,
   },
 
-  email: {
-    type: DataType.STRING(255),
-    validate: { isEmail: true },
+  // username
+  un: {
+    type: DataType.STRING(45),
   },
 
-  emailConfirmed: {
-    type: DataType.BOOLEAN,
-    defaultValue: false,
+  // password
+  psw: {
+    type: DataType.STRING(45),
+  },
+
+  // role
+  t: {
+    type: DataType.INTEGER,
+    defaultValue: 1,
   },
 
 }, {
 
-  indexes: [
-    { fields: ['email'] },
-  ],
+  instanceMethods: {
+    verifyPassword(password) {
+      return password === this.psw;
+    },
+  },
 
 });
 

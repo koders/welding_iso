@@ -1,4 +1,6 @@
 node_modules/
 build/
+coverage/
+.nyc_output/
 src/dbConfig.json
 database.sqlite

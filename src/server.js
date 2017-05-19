@@ -70,18 +70,32 @@ app.use(passport.initialize());
 if (__DEV__) {
   app.enable('trust proxy');
 }
-app.get('/login/facebook',
-  passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
-);
-app.get('/login/facebook/return',
-  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login', session: false }),
   (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-    const token = jwt.sign(req.user, config.auth.jwt.secret, { expiresIn });
+    const expiresIn = 60 * 60; // 1 hour
+    const token = jwt.sign(req.user.dataValues, config.auth.jwt.secret, { expiresIn });
     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
     res.redirect('/');
   },
 );
+app.get('/logout', (req, res) => {
+  res.clearCookie('id_token');
+  req.logout();
+  res.redirect('/');
+});
+// app.get('/login/facebook',
+//   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
+// );
+// app.get('/login/facebook/return',
+//   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+//   (req, res) => {
+//     const expiresIn = 60 * 60 * 24 * 180; // 180 days
+//     const token = jwt.sign(req.user, config.auth.jwt.secret, { expiresIn });
+//     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+//     res.redirect('/');
+//   },
+// );
 
 //
 // Register API middleware
