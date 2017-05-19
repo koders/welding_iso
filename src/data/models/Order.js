@@ -33,6 +33,18 @@ const Order = Model.define('Order', {
     type: DataType.INTEGER,
   },
 
+  createdAtMilliseconds: {
+    type: DataType.BIGINT,
+  },
+
+  createdAt: {
+    type: DataType.DATE,
+  },
+
+  updatedAt: {
+    type: DataType.DATE,
+  },
+
 },
 
 );

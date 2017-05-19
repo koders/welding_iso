@@ -7,6 +7,10 @@ import history from '../../history';
 import s from './Orders.css';
 
 class Orders extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleCreate = this.createOrder.bind(this);
+  }
   getStatusName(status) {
     let statusName = 'Unknown';
     switch (status) {
@@ -49,9 +53,9 @@ class Orders extends React.Component {
     const html = <span className={`label label-${className}`}>{statusName}</span>;
     return html;
   }
-  async handleCreate(event) {
+  async createOrder(event) {
     event.preventDefault();
-    const fetch = this.props.fetch;
+    const { fetch } = this.props;
     const resp = await fetch('/graphql', {
       body: JSON.stringify({
         query: 'mutation createOrder{createOrder(data: "{}"){id}}',
@@ -67,7 +71,7 @@ class Orders extends React.Component {
     const someOrders = orders.slice(0, 100);
     return (
       <div className="orders">
-        <button onClick={this.handleCreate.bind(this)}>New Order</button>
+        <button className="btn btn-info" onClick={this.handleCreate}>New Order</button>
         <table className="table">
           <thead>
             <tr>
@@ -83,7 +87,7 @@ class Orders extends React.Component {
             {
               someOrders.map((order) => {
                 const status = order.t;
-                const data = JSON.parse(order.data);
+                const data = order.data;
                 return (
                   <tr className="orderRow" key={order.id} data-status={this.getStatusName(status)}>
                     <td>{this.getStatusHtml(status)}</td>
@@ -106,7 +110,6 @@ class Orders extends React.Component {
 Orders.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    data: PropTypes.string.isRequired,
   })).isRequired,
 };
 

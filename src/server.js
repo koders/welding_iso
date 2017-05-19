@@ -195,3 +195,6 @@ models.sync().catch(err => console.error(err.stack)).then(() => {
     console.info(`The server is running at http://localhost:${config.port}/`);
   });
 });
+
+// Migration scripts
+require('./migration');
