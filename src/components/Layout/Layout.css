@@ -27,8 +27,17 @@ body {
   margin: 0;
 }
 
+html body {
+  font-family: var(--font-family-base);
+}
+
 a {
   color: #0074c2;
+}
+
+a:focus,
+a:hover {
+  text-decoration: none;
 }
 
 /*
@@ -180,4 +189,8 @@ textarea {
   h3 {
     page-break-after: avoid;
   }
+}
+
+.root {
+  display: flex;
 }
