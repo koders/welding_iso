@@ -18,6 +18,7 @@ import orders from './queries/orders';
 import order from './queries/order';
 
 import createOrder from './mutations/order';
+import deleteOrder from './mutations/deleteOrder';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -33,6 +34,7 @@ const schema = new Schema({
     name: 'Mutation',
     fields: {
       createOrder,
+      deleteOrder,
     },
   }),
 });

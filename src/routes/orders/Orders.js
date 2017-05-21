@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
+import DeleteButton from './deleteButton';
 import Link from '../../components/Link';
 import history from '../../history';
 import s from './Orders.css';
@@ -10,6 +11,7 @@ class Orders extends React.Component {
   constructor(props) {
     super(props);
     this.handleCreate = this.createOrder.bind(this);
+    this.handleDelete = this.deleteOrder.bind(this);
   }
   getStatusName(status) {
     let statusName = 'Unknown';
@@ -64,7 +66,18 @@ class Orders extends React.Component {
     const { data } = await resp.json();
     if (!data || !data.createOrder) throw new Error('Failed to create order.');
     history.push(`/orders/${data.createOrder.id}`);
-    // this.context.router.push(`/orders/${data.createOrder.id}`);
+  }
+  async deleteOrder(id) {
+    const { fetch } = this.props;
+    const resp = await fetch('/graphql', {
+      body: JSON.stringify({
+        query: `mutation deleteOrder{deleteOrder(id: "${id}"){id}}`,
+      }),
+    });
+    const { data } = await resp.json();
+    if (!data) throw new Error('Failed to delete order.');
+    history.push('/orders');
+    alert('deleted');
   }
   render() {
     const { orders } = this.props;
@@ -96,6 +109,9 @@ class Orders extends React.Component {
                     <td>{data.odate}</td>
                     <td>{data.ddate}</td>
                     <td>{data.tot}</td>
+                    <td>
+                      <DeleteButton handleDelete={this.handleDelete} id={order.id} />
+                    </td>
                   </tr>
                 );
               })
