@@ -9,7 +9,7 @@ const createOrder = {
     data: { type: GraphQLString },
   },
   resolve(data, args) {
-    return Order.create({ data: args.data });
+    return Order.create({ data: args.data, createdAtMilliseconds: Date.now() });
   },
 };
 
